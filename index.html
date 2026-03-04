@@ -4,12 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sean Clarke | Cloud Ops (Azure)</title>
-  <meta name="description" content="Cloud Ops / Azure-focused portfolio: IaC, CI/CD, observability, and runbook-style documentation." />
+  <meta name="description" content="Cloud Ops / Azure-focused portfolio: identity, endpoint management, automation, and runbook-style documentation." />
   <style>
     :root{
       --bg:#0b1220;
       --panel:#0f1a33;
-      --panel2:#0c1730;
       --text:#e7eefc;
       --muted:#b7c3de;
       --muted2:#8fa1c7;
@@ -99,35 +98,28 @@
       font-size:12.5px;
       color:var(--muted);
     }
-    .cards{
-      display:grid; gap:12px;
-      grid-template-columns: 1fr;
-    }
-    @media(min-width: 860px){
-      .cards{grid-template-columns: 1fr 1fr 1fr;}
-    }
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
       border:1px solid var(--border);
       border-radius:14px;
-      padding:14px 14px 12px;
+      padding:16px 16px 14px;
       display:flex;
       flex-direction:column;
-      gap:10px;
-      min-height: 170px;
+      gap:12px;
+      margin-top:10px;
     }
     .cardTop{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
-    .card h3{margin:0; font-size:14.5px}
+    .card h3{margin:0; font-size:15px}
     .tag{
       font-size:11px;
       padding:5px 8px;
       border-radius:999px;
-      border:1px solid var(--border);
-      color:var(--muted);
-      background: rgba(0,0,0,0.12);
+      border:1px solid rgba(138,240,197,0.25);
+      color:var(--accent2);
+      background: rgba(138,240,197,0.06);
       white-space:nowrap;
     }
-    .card p{margin:0; color:var(--muted); font-size:13px}
+    .card p{margin:0; color:var(--muted); font-size:13.5px}
     .card .meta{display:flex; flex-wrap:wrap; gap:8px}
     .card .meta span{
       font-family:var(--mono);
@@ -138,13 +130,20 @@
       padding:5px 8px;
       border-radius:10px;
     }
-    footer{margin-top:18px; color:var(--muted2); font-size:12.5px; text-align:center}
+    .highlights{
+      display:grid; gap:8px; margin-top:8px;
+      font-size:13px; color:var(--muted);
+    }
+    .highlights li{margin:0; padding-left:4px}
+    .highlights ul{margin:0; padding-left:18px; list-style:none}
+    .highlights ul li::before{content:"→ "; color:var(--muted2)}
     .splitList{display:grid; gap:10px}
     .kv{display:flex; flex-direction:column; gap:6px; margin-top:10px}
     .kvRow{display:flex; gap:8px; flex-wrap:wrap}
     .kvRow b{font-family:var(--mono); font-size:12px; color:rgba(231,238,252,0.9)}
     .kvRow span{color:var(--muted); font-size:13px}
     .note{margin-top:10px; font-size:12.5px; color:var(--muted2)}
+    footer{margin-top:18px; color:var(--muted2); font-size:12.5px; text-align:center}
   </style>
 </head>
 <body>
@@ -173,8 +172,7 @@
 
     <main>
       <section>
-        <h2>Featured Projects</h2>
-        <p class="muted">These are the first three Cloud Ops projects in my portfolio. Each repo includes architecture notes, deploy steps, and evidence screenshots in <span style="font-family:var(--mono)">/docs</span>.</p>
+        <h2>Featured Project</h2>
 
         <div class="card">
           <div class="cardTop">
@@ -183,37 +181,24 @@
                 Modern Workplace &amp; Identity Ops Lab
               </a>
             </h3>
-            <span class="tag">Complete</span>
+            <span class="tag">Live</span>
           </div>
-          <p>Microsoft 365 lab demonstrating Entra ID identity ops, Conditional Access, Intune compliance/configuration, Win32 app deployment, and proactive remediation with runbooks + investigation write-ups.</p>
+          <p>End-to-end Microsoft 365 lab simulating day-to-day identity and endpoint operations for a small org. Built from scratch on a Business Premium trial tenant with full screenshot evidence and operational documentation.</p>
+          <div class="highlights">
+            <ul>
+              <li>Entra ID security groups, Conditional Access (MFA, legacy auth block, device compliance), break-glass accounts with documented controls</li>
+              <li>Intune device enrollment, compliance policies, configuration profiles, Win32 app deployment (7-Zip)</li>
+              <li>Proactive remediation: detect/remediate firewall drift with PowerShell + Intune reporting</li>
+              <li>Graph SDK automation: user onboarding, compliance reporting, license auditing</li>
+              <li>Runbooks + ticket-style investigation write-ups (CA troubleshooting, app deployment, enrollment)</li>
+            </ul>
+          </div>
           <div class="meta">
-            <span>Entra ID</span><span>Intune</span><span>Conditional Access</span><span>PowerShell</span><span>Remediation</span>
-          </div>
-        </div>
-          <div class="card">
-            <div class="cardTop">
-              <h3><a href="https://github.com/seancl8611/cicd-deploy-demo" target="_blank" rel="noreferrer">CI/CD Deploy Demo</a></h3>
-              <span class="tag">Coming this week</span>
-            </div>
-            <p>Pipeline that validates, plans, and deploys infrastructure with clear environments and evidence of successful runs.</p>
-            <div class="meta">
-              <span>GitHub Actions</span><span>CI/CD</span><span>Policy checks</span>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="cardTop">
-              <h3><a href="https://github.com/seancl8611/cloud-ops-observability-runbook" target="_blank" rel="noreferrer">Cloud Ops Observability + Runbook</a></h3>
-              <span class="tag">Coming this week</span>
-            </div>
-            <p>Monitoring and incident-ready runbook: alerts, dashboards, and KQL queries to troubleshoot common Cloud Ops issues quickly.</p>
-            <div class="meta">
-              <span>Azure Monitor</span><span>Log Analytics</span><span>KQL</span><span>Runbooks</span>
-            </div>
+            <span>Entra ID</span><span>Intune</span><span>Conditional Access</span><span>PowerShell</span><span>Microsoft Graph</span><span>Remediation</span>
           </div>
         </div>
 
-        <p class="note">As these projects are completed, each card will link to deploy instructions and evidence screenshots.</p>
+        <p class="note">Additional projects (CI/CD pipelines, observability + KQL runbooks) are in development. This portfolio is actively expanding.</p>
       </section>
 
       <div class="grid2">
@@ -250,8 +235,8 @@
         <section>
           <h2>Certifications</h2>
           <div class="kv">
-            <div class="kvRow"><b>AZ-104</b><span>Azure Administrator Associate • Issued Jan 2026</span></div>
-            <div class="kvRow"><b>AZ-900</b><span>Azure Fundamentals • Issued Sept 2025</span></div>
+            <div class="kvRow"><b>AZ-104</b><span>Azure Administrator Associate • Jan 2026</span></div>
+            <div class="kvRow"><b>AZ-900</b><span>Azure Fundamentals • Sept 2025</span></div>
           </div>
 
           <h2 style="margin-top:16px;">Contact</h2>
@@ -261,7 +246,7 @@
             <div class="kvRow"><b>GitHub</b><span><a href="https://github.com/seancl8611" target="_blank" rel="noreferrer">github.com/seancl8611</a></span></div>
           </div>
 
-          <p class="note">Phone omitted by design. Available upon request.</p>
+          <p class="note">Phone available upon request.</p>
         </section>
       </div>
 
