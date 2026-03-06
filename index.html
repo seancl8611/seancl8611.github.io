@@ -1,265 +1,781 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sean Clarke | Cloud Ops (Azure)</title>
-  <meta name="description" content="Cloud Ops / Azure-focused portfolio: identity, endpoint management, automation, and runbook-style documentation." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sean Clarke | Cloud & Infrastructure Engineer</title>
+  <meta name="description" content="Azure-certified IT professional focused on cloud infrastructure, systems administration, and operational reliability.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#0b1220;
-      --panel:#0f1a33;
-      --text:#e7eefc;
-      --muted:#b7c3de;
-      --muted2:#8fa1c7;
-      --accent:#6ea8ff;
-      --accent2:#8af0c5;
-      --border:rgba(255,255,255,0.08);
-      --shadow: 0 10px 30px rgba(0,0,0,0.35);
-      --radius:16px;
-      --max: 980px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0b1120;
+      --bg-card: #0f1829;
+      --bg-card-hover: #131e33;
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --muted: #7b8fad;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56, 189, 248, 0.12);
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --border: rgba(56, 189, 248, 0.1);
+      --font-body: 'Sora', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      background: radial-gradient(1200px 600px at 20% 0%, rgba(110,168,255,0.18), transparent 60%),
-                  radial-gradient(900px 500px at 100% 20%, rgba(138,240,197,0.10), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-      line-height:1.5;
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent-dim) var(--bg);
     }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 44px}
-    header{
-      display:flex; gap:18px; flex-direction:column;
-      padding:26px 22px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    .topline{display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between}
-    .name{font-size:28px; font-weight:750; letter-spacing:0.2px}
-    .badgeRow{display:flex; flex-wrap:wrap; gap:8px}
-    .badge{
-      font-size:12px; color:var(--text);
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      padding:6px 10px; border-radius:999px;
-      white-space:nowrap;
+
+    a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    /* ─── Navigation ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transform: translateY(-100%);
+      transition: transform 0.4s ease;
     }
-    .badge .mono{font-family:var(--mono); color:var(--muted)}
-    .summary{
-      color:var(--muted);
-      max-width: 78ch;
-      margin:0;
-      font-size:14.5px;
+    nav.visible { transform: translateY(0); }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 1px;
     }
-    .links{display:flex; flex-wrap:wrap; gap:10px}
-    .btn{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      color:var(--text);
-      font-size:14px;
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
     }
-    .btn:hover{background: rgba(255,255,255,0.07); text-decoration:none}
-    main{margin-top:18px; display:grid; gap:18px}
-    .grid2{display:grid; gap:18px; grid-template-columns: 1fr}
-    @media(min-width: 860px){
-      .grid2{grid-template-columns: 1.2fr 0.8fr}
+    .nav-links a:hover { color: var(--accent); opacity: 1; }
+
+    /* ─── Hero ─── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-    section{
-      padding:20px 18px;
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      background: rgba(255,255,255,0.03);
+
+    #topology-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
     }
-    h2{
-      margin:0 0 10px;
-      font-size:16px;
-      letter-spacing:0.2px;
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 0 2rem;
     }
-    .muted{color:var(--muted2); font-size:13.5px; margin:0}
-    .skills{
-      display:flex; flex-wrap:wrap; gap:8px; margin-top:10px
+
+    .hero-greeting {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.2s forwards;
     }
-    .pill{
-      border:1px solid var(--border);
-      background: rgba(15,26,51,0.65);
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:12.5px;
-      color:var(--muted);
+
+    .hero-name {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.4s forwards;
     }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:16px 16px 14px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      margin-top:10px;
+
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.6s forwards;
     }
-    .cardTop{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
-    .card h3{margin:0; font-size:15px}
-    .tag{
-      font-size:11px;
-      padding:5px 8px;
-      border-radius:999px;
-      border:1px solid rgba(138,240,197,0.25);
-      color:var(--accent2);
-      background: rgba(138,240,197,0.06);
-      white-space:nowrap;
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      background: transparent;
+      padding: 0.7rem 1.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.8s forwards;
     }
-    .card p{margin:0; color:var(--muted); font-size:13.5px}
-    .card .meta{display:flex; flex-wrap:wrap; gap:8px}
-    .card .meta span{
-      font-family:var(--mono);
-      font-size:11.5px;
-      color:rgba(231,238,252,0.75);
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      padding:5px 8px;
-      border-radius:10px;
+    .hero-cta:hover {
+      background: var(--accent-dim);
+      box-shadow: 0 0 20px var(--accent-dim);
     }
-    .highlights{
-      display:grid; gap:8px; margin-top:8px;
-      font-size:13px; color:var(--muted);
+    .hero-cta .arrow {
+      transition: transform 0.3s ease;
     }
-    .highlights li{margin:0; padding-left:4px}
-    .highlights ul{margin:0; padding-left:18px; list-style:none}
-    .highlights ul li::before{content:"→ "; color:var(--muted2)}
-    .splitList{display:grid; gap:10px}
-    .kv{display:flex; flex-direction:column; gap:6px; margin-top:10px}
-    .kvRow{display:flex; gap:8px; flex-wrap:wrap}
-    .kvRow b{font-family:var(--mono); font-size:12px; color:rgba(231,238,252,0.9)}
-    .kvRow span{color:var(--muted); font-size:13px}
-    .note{margin-top:10px; font-size:12.5px; color:var(--muted2)}
-    footer{margin-top:18px; color:var(--muted2); font-size:12.5px; text-align:center}
+    .hero-cta:hover .arrow {
+      transform: translateY(3px);
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Scroll indicator ─── */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 1.2s forwards;
+    }
+    .scroll-indicator span {
+      display: block;
+      width: 2px;
+      height: 28px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      margin: 0 auto;
+      animation: scrollPulse 2s ease infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+      50% { opacity: 0.8; transform: scaleY(1); }
+    }
+
+    /* ─── Sections ─── */
+    section {
+      padding: 6rem 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── Fade-in on scroll ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── About ─── */
+    #about { border-top: 1px solid var(--border); }
+
+    .about-text {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 680px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .tech-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+
+    .tech-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text);
+      transition: all 0.25s ease;
+    }
+    .tech-item:hover {
+      border-color: var(--accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--accent-dim);
+    }
+    .tech-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--accent);
+    }
+
+    /* ─── Projects ─── */
+    #projects { border-top: 1px solid var(--border); }
+
+    .projects-intro {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      max-width: 640px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+      transition: all 0.3s ease;
+    }
+    .project-card:hover {
+      border-color: rgba(56, 189, 248, 0.25);
+      box-shadow: 0 8px 32px rgba(56, 189, 248, 0.06);
+    }
+
+    .project-image-wrap {
+      position: relative;
+      width: 100%;
+      background: #0d1525;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .project-image-wrap img,
+    .project-image-wrap svg {
+      max-width: 100%;
+      height: auto;
+      max-height: 320px;
+      border-radius: 4px;
+    }
+
+    .project-body {
+      padding: 1.75rem 2rem;
+    }
+
+    .project-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.3px;
+    }
+
+    .project-stack {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      letter-spacing: 0.3px;
+    }
+
+    .project-desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    .project-link:hover {
+      background: var(--accent-dim);
+      opacity: 1;
+    }
+
+    /* ─── Certifications ─── */
+    .certs-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .cert-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .cert-badge .cert-icon {
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+
+    /* ─── Contact ─── */
+    #contact {
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .contact-blurb {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      padding: 0.65rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      opacity: 1;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      letter-spacing: 0.3px;
+    }
+
+    /* ─── Placeholder Diagram ─── */
+    .diagram-placeholder {
+      width: 100%;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed rgba(56, 189, 248, 0.2);
+      border-radius: 8px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      gap: 0.5rem;
+      padding: 2rem;
+    }
+    .diagram-placeholder span {
+      font-size: 2rem;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      section { padding: 4rem 1.25rem; }
+      .project-body { padding: 1.25rem 1.5rem; }
+      .project-image-wrap { padding: 1rem; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: 0.78rem; }
+      .contact-links { flex-direction: column; align-items: center; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+      .tech-grid { gap: 0.75rem; }
+      .tech-item { font-size: 0.8rem; padding: 0.5rem 0.85rem; }
+      .project-links { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="topline">
-        <div class="name">Sean Clarke</div>
-        <div class="badgeRow">
-          <div class="badge">Cloud Ops (Azure)</div>
-          <div class="badge"><span class="mono">AZ-104</span> • Azure Administrator Associate</div>
-          <div class="badge"><span class="mono">AZ-900</span> • Azure Fundamentals</div>
-        </div>
-      </div>
 
-      <p class="summary">
-        Azure-certified IT professional with hands-on experience supporting Windows endpoints, cloud identity, and device management in production environments.
-        Focused on Cloud Ops: secure-by-default infrastructure, repeatable deployments, and runbook-quality documentation.
+  <!-- ─── Navigation ─── -->
+  <nav id="navbar">
+    <span class="nav-logo">SC</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── Hero ─── -->
+  <section id="hero">
+    <canvas id="topology-canvas"></canvas>
+    <div class="hero-content">
+      <p class="hero-greeting">Hello, I'm</p>
+      <h1 class="hero-name">Sean Clarke</h1>
+      <p class="hero-title">Cloud &amp; Infrastructure Engineer</p>
+      <a href="#about" class="hero-cta">
+        View my work <span class="arrow">↓</span>
+      </a>
+    </div>
+    <div class="scroll-indicator"><span></span></div>
+  </section>
+
+  <!-- ─── About ─── -->
+  <section id="about">
+    <div class="reveal">
+      <p class="section-label">About</p>
+      <h2 class="section-title">Who I Am</h2>
+      <p class="about-text">
+        I'm an Azure-certified early-career IT professional and recent Rutgers IT graduate focused on cloud infrastructure, systems administration, and operational reliability. Through hands-on lab projects, I've built and documented Azure infrastructure with Terraform, monitoring and alerting workflows, GitHub Actions CI/CD, and Microsoft 365 / Intune identity and endpoint operations.
       </p>
+    </div>
 
-      <div class="links">
-        <a class="btn" href="mailto:seanc8611@gmail.com">Email</a>
-        <a class="btn" href="https://linkedin.com/in/seanc8611" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a class="btn" href="https://github.com/seancl8611/modern-workplace-ops-lab" target="_blank" rel="noreferrer">GitHub</a>
+    <div class="reveal">
+      <p class="section-label">Tech Stack</p>
+      <div class="tech-grid">
+        <div class="tech-item"><div class="tech-icon">☁</div> Azure</div>
+        <div class="tech-item"><div class="tech-icon">⬡</div> Terraform</div>
+        <div class="tech-item"><div class="tech-icon">⚡</div> PowerShell</div>
+        <div class="tech-item"><div class="tech-icon">⚙</div> GitHub Actions</div>
+        <div class="tech-item"><div class="tech-icon">🐧</div> Linux</div>
+        <div class="tech-item"><div class="tech-icon">🐍</div> Python</div>
+        <div class="tech-item"><div class="tech-icon">◈</div> Git</div>
+        <div class="tech-item"><div class="tech-icon">🔐</div> Entra ID</div>
+        <div class="tech-item"><div class="tech-icon">📱</div> Intune</div>
+        <div class="tech-item"><div class="tech-icon">✉</div> Microsoft 365</div>
       </div>
-    </header>
+    </div>
 
-    <main>
-      <section>
-        <h2>Featured Project</h2>
+    <div class="reveal">
+      <p class="section-label" style="margin-top: 3rem;">Certifications</p>
+      <div class="certs-row">
+        <div class="cert-badge"><span class="cert-icon">◆</span> Azure Administrator Associate (AZ-104)</div>
+        <div class="cert-badge"><span class="cert-icon">◆</span> Azure Fundamentals (AZ-900)</div>
+      </div>
+    </div>
+  </section>
 
-        <div class="card">
-          <div class="cardTop">
-            <h3>
-              <a href="https://github.com/seancl8611/modern-workplace-ops-lab" target="_blank" rel="noreferrer">
-                Modern Workplace &amp; Identity Ops Lab
-              </a>
-            </h3>
-            <span class="tag">Live</span>
-          </div>
-          <p>End-to-end Microsoft 365 lab simulating day-to-day identity and endpoint operations for a small org. Built from scratch on a Business Premium trial tenant with full screenshot evidence and operational documentation.</p>
-          <div class="highlights">
-            <ul>
-              <li>Entra ID security groups, Conditional Access (MFA, legacy auth block, device compliance), break-glass accounts with documented controls</li>
-              <li>Intune device enrollment, compliance policies, configuration profiles, Win32 app deployment (7-Zip)</li>
-              <li>Proactive remediation: detect/remediate firewall drift with PowerShell + Intune reporting</li>
-              <li>Graph SDK automation: user onboarding, compliance reporting, license auditing</li>
-              <li>Runbooks + ticket-style investigation write-ups (CA troubleshooting, app deployment, enrollment)</li>
-            </ul>
-          </div>
-          <div class="meta">
-            <span>Entra ID</span><span>Intune</span><span>Conditional Access</span><span>PowerShell</span><span>Microsoft Graph</span><span>Remediation</span>
-          </div>
+  <!-- ─── Projects ─── -->
+  <section id="projects">
+    <div class="reveal">
+      <p class="section-label">Projects</p>
+      <h2 class="section-title">What I've Built</h2>
+      <p class="projects-intro">Here are a few projects that reflect my focus on cloud infrastructure, automation, monitoring, and modern IT operations.</p>
+    </div>
+
+    <!-- Project 1: Azure Infra Lab -->
+    <div class="project-card reveal">
+      <div class="project-image-wrap">
+        <!-- PLACEHOLDER: Replace with your Azure lab architecture diagram -->
+        <div class="diagram-placeholder">
+          <span>◈</span>
+          Architecture diagram — swap in your Azure lab SVG/PNG here
         </div>
-
-        <p class="note">Additional projects (CI/CD pipelines, observability + KQL runbooks) are in development. This portfolio is actively expanding.</p>
-      </section>
-
-      <div class="grid2">
-        <section>
-          <h2>Core Skills</h2>
-          <p class="muted">Grouped for recruiter readability and technical screening.</p>
-
-          <div class="splitList" style="margin-top:10px;">
-            <div>
-              <div class="kv">
-                <div class="kvRow"><b>Cloud & Identity:</b><span>Azure (AZ-104/AZ-900), Entra ID, Active Directory, Intune, Microsoft 365, RBAC</span></div>
-                <div class="kvRow"><b>Infrastructure:</b><span>Windows Server, Windows endpoints, Linux fundamentals (Ubuntu)</span></div>
-                <div class="kvRow"><b>Networking:</b><span>TCP/IP, DNS, DHCP, VLAN concepts, PoE switches, patch panels</span></div>
-                <div class="kvRow"><b>Automation:</b><span>PowerShell, Python, Bash, Git, REST APIs, CI/CD fundamentals</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="skills" aria-label="skill pills">
-            <span class="pill">Azure</span>
-            <span class="pill">Entra ID</span>
-            <span class="pill">Active Directory</span>
-            <span class="pill">Intune</span>
-            <span class="pill">RBAC</span>
-            <span class="pill">PowerShell</span>
-            <span class="pill">Python</span>
-            <span class="pill">Git</span>
-            <span class="pill">DNS/DHCP</span>
-            <span class="pill">Linux fundamentals</span>
-            <span class="pill">Runbook documentation</span>
-          </div>
-        </section>
-
-        <section>
-          <h2>Certifications</h2>
-          <div class="kv">
-            <div class="kvRow"><b>AZ-104</b><span>Azure Administrator Associate • Jan 2026</span></div>
-            <div class="kvRow"><b>AZ-900</b><span>Azure Fundamentals • Sept 2025</span></div>
-          </div>
-
-          <h2 style="margin-top:16px;">Contact</h2>
-          <div class="kv">
-            <div class="kvRow"><b>Email</b><span><a href="mailto:seanc8611@gmail.com">seanc8611@gmail.com</a></span></div>
-            <div class="kvRow"><b>LinkedIn</b><span><a href="https://linkedin.com/in/seanc8611" target="_blank" rel="noreferrer">linkedin.com/in/seanc8611</a></span></div>
-            <div class="kvRow"><b>GitHub</b><span><a href="https://github.com/seancl8611/modern-workplace-ops-lab" target="_blank" rel="noreferrer">https://github.com/seancl8611/</a></span></div>
-          </div>
-
-          <p class="note">Phone available upon request.</p>
-        </section>
       </div>
+      <div class="project-body">
+        <h3 class="project-name">Azure Infrastructure &amp; Observability Lab</h3>
+        <p class="project-stack">Terraform · Azure · GitHub Actions · Log Analytics · KQL · OIDC</p>
+        <p class="project-desc">
+          Terraform-managed Azure environment built to demonstrate core infrastructure deployment, observability, and CI/CD. The project includes a virtual network, subnets, NSGs, public IP, Ubuntu VM with nginx, Log Analytics ingestion through Azure Monitor Agent, CPU alerting with email notifications, and GitHub Actions workflows using OIDC instead of client secrets.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/seancl8611/azure-infra-observability-lab" target="_blank" rel="noopener" class="project-link">
+            ↗ GitHub
+          </a>
+        </div>
+      </div>
+    </div>
 
-      <footer>
-        <span style="font-family:var(--mono)">Last updated:</span> <span id="updated"></span>
-      </footer>
-    </main>
-  </div>
+    <!-- Project 2: Modern Workplace Lab -->
+    <div class="project-card reveal">
+      <div class="project-image-wrap">
+        <img src="architecture.svg" alt="Modern Workplace & Identity Ops Lab Architecture Diagram">
+      </div>
+      <div class="project-body">
+        <h3 class="project-name">Modern Workplace &amp; Identity Ops Lab</h3>
+        <p class="project-stack">Entra ID · Intune · Conditional Access · PowerShell · Microsoft Graph</p>
+        <p class="project-desc">
+          Hands-on Microsoft 365, Entra ID, and Intune lab designed to simulate day-to-day identity and endpoint operations for a small organization. The project demonstrates Conditional Access baselines, security groups, RBAC, Windows device enrollment, compliance policies, configuration profiles, app deployment, proactive remediation, and PowerShell automation with Microsoft Graph.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/seancl8611/modern-workplace-ops-lab" target="_blank" rel="noopener" class="project-link">
+            ↗ GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ─── Contact ─── -->
+  <section id="contact">
+    <div class="reveal">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="contact-blurb">
+        I'm actively building experience in cloud, infrastructure, and IT operations. Feel free to reach out if you'd like to connect about opportunities, projects, or technical work.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:seanc8611@gmail.com" class="contact-link">✉ seanc8611@gmail.com</a>
+        <a href="https://linkedin.com/in/seanc8611" target="_blank" rel="noopener" class="contact-link">in LinkedIn</a>
+        <a href="https://github.com/seancl8611" target="_blank" rel="noopener" class="contact-link">◈ GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    Sean Clarke &copy; 2026
+  </footer>
+
+  <!-- ─── JavaScript ─── -->
   <script>
-    const d = new Date();
-    const fmt = d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'2-digit'});
-    document.getElementById('updated').textContent = fmt;
+    /* ═══════════════════════════════════════════
+       Cloud Topology Canvas
+       ═══════════════════════════════════════════ */
+    (function() {
+      var canvas = document.getElementById('topology-canvas');
+      var ctx = canvas.getContext('2d');
+      var mouse = { x: -1000, y: -1000 };
+      var nodes = [];
+      var tick = 0;
+      var icons = ['◈', '⬡', '▣', '◉', '⊞', '△'];
+      var ACCENT = '56, 189, 248';
+      var CONNECTION_DIST = 160;
+      var MOUSE_RADIUS = 180;
+
+      function resize() {
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function initNodes() {
+        nodes = [];
+        var count = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 18000));
+        for (var i = 0; i < count; i++) {
+          nodes.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            vx: (Math.random() - 0.5) * 0.2,
+            vy: (Math.random() - 0.5) * 0.2,
+            size: Math.random() * 5 + 9,
+            icon: icons[Math.floor(Math.random() * icons.length)],
+            pulse: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function draw() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        ctx.clearRect(0, 0, w, h);
+        tick += 0.008;
+
+        // Connections
+        for (var i = 0; i < nodes.length; i++) {
+          for (var j = i + 1; j < nodes.length; j++) {
+            var dx = nodes[i].x - nodes[j].x;
+            var dy = nodes[i].y - nodes[j].y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < CONNECTION_DIST) {
+              var alpha = (1 - dist / CONNECTION_DIST) * 0.18;
+              ctx.beginPath();
+              ctx.strokeStyle = 'rgba(' + ACCENT + ', ' + alpha + ')';
+              ctx.lineWidth = 1;
+              ctx.setLineDash([3, 5]);
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.stroke();
+              ctx.setLineDash([]);
+
+              // Data packet
+              var t = (Math.sin(tick * 2 + i * 0.7 + j * 0.3) + 1) / 2;
+              var px = nodes[i].x + (nodes[j].x - nodes[i].x) * t;
+              var py = nodes[i].y + (nodes[j].y - nodes[i].y) * t;
+              ctx.beginPath();
+              ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+              ctx.fillStyle = 'rgba(' + ACCENT + ', ' + (alpha * 3) + ')';
+              ctx.fill();
+            }
+          }
+        }
+
+        // Nodes
+        for (var k = 0; k < nodes.length; k++) {
+          var n = nodes[k];
+
+          // Mouse attraction
+          var dmx = mouse.x - n.x;
+          var dmy = mouse.y - n.y;
+          var md = Math.sqrt(dmx * dmx + dmy * dmy);
+          if (md < MOUSE_RADIUS && md > 0) {
+            var force = (MOUSE_RADIUS - md) / MOUSE_RADIUS * 0.5;
+            n.x += dmx * force * 0.015;
+            n.y += dmy * force * 0.015;
+          }
+
+          // Drift
+          n.x += n.vx;
+          n.y += n.vy;
+          if (n.x < -20) n.x = w + 20;
+          if (n.x > w + 20) n.x = -20;
+          if (n.y < -20) n.y = h + 20;
+          if (n.y > h + 20) n.y = -20;
+
+          // Pulse glow
+          n.pulse += 0.015;
+          var glow = (Math.sin(n.pulse) + 1) / 2 * 0.3 + 0.15;
+
+          // Halo
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.size + 4, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + ACCENT + ', ' + (glow * 0.1) + ')';
+          ctx.fill();
+
+          // Icon
+          ctx.font = n.size + 'px monospace';
+          ctx.fillStyle = 'rgba(' + ACCENT + ', ' + (glow + 0.25) + ')';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(n.icon, n.x, n.y);
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      resize();
+      initNodes();
+      draw();
+
+      window.addEventListener('resize', function() {
+        resize();
+        initNodes();
+      });
+
+      document.getElementById('hero').addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      document.getElementById('hero').addEventListener('mouseleave', function() {
+        mouse.x = -1000;
+        mouse.y = -1000;
+      });
+    })();
+
+    /* ═══════════════════════════════════════════
+       Navbar show on scroll
+       ═══════════════════════════════════════════ */
+    (function() {
+      var navbar = document.getElementById('navbar');
+      var heroHeight = window.innerHeight * 0.7;
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > heroHeight) {
+          navbar.classList.add('visible');
+        } else {
+          navbar.classList.remove('visible');
+        }
+      });
+    })();
+
+    /* ═══════════════════════════════════════════
+       Reveal on scroll
+       ═══════════════════════════════════════════ */
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
   </script>
 </body>
 </html>
