@@ -41,11 +41,15 @@
     .hero-line:nth-child(2){animation:fadeUp .7s ease .55s forwards}
     .hero-line .name{color:var(--accent);font-weight:800}
     .hero-line .role{color:var(--text-secondary)}
-    .hero-cta-wrap{margin-top:2.5rem;opacity:0;transform:translateY(24px);animation:fadeUp .7s ease .8s forwards}
+    .hero-cta-wrap{margin-top:2.5rem;opacity:0;transform:translateY(24px);animation:fadeUp .7s ease .8s forwards;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
     .hero-cta{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--font-mono);font-size:.85rem;color:var(--accent);border:1.5px solid rgba(var(--accent-rgb),.5);background:rgba(var(--accent-rgb),.05);padding:.75rem 2rem;border-radius:8px;cursor:pointer;letter-spacing:.5px;transition:all .35s}
     .hero-cta:hover{background:rgba(var(--accent-rgb),.12);border-color:var(--accent);box-shadow:0 0 30px rgba(var(--accent-rgb),.15);opacity:1}
     .hero-cta:active{transform:translateY(1px);box-shadow:0 0 15px rgba(var(--accent-rgb),.1)}
     .hero-cta .arrow{transition:transform .3s;font-size:1.1rem}.hero-cta:hover .arrow{transform:translateY(3px)}
+    .hero-cta--secondary{border-color:rgba(var(--accent-rgb),.25);background:transparent}
+    .hero-cta--secondary:hover{background:rgba(var(--accent-rgb),.08);border-color:rgba(var(--accent-rgb),.5)}
+    .hero-cta--secondary .arrow{font-size:.9rem}
+    .hero-cta--secondary:hover .arrow{transform:translateY(-2px) translateX(2px)}
     @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 
     /* SECTIONS */
@@ -167,6 +171,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><a href="Clarke_Sean_Resume_2026.pdf" target="_blank" rel="noopener">Resume</a></li>
     </ul>
   </nav>
 
@@ -177,6 +182,7 @@
       <p class="hero-line"><span class="role">I'm a cloud &amp; infrastructure engineer.</span></p>
       <div class="hero-cta-wrap">
         <a href="#about" class="hero-cta">View my work <span class="arrow">&#8595;</span></a>
+        <a href="Clarke_Sean_Resume_2026.pdf" target="_blank" rel="noopener" class="hero-cta hero-cta--secondary">Resume <span class="arrow">&#8599;</span></a>
       </div>
     </div>
   </section>
@@ -205,7 +211,7 @@
             <div class="orbit-node">LOG</div>
             <div class="orbit-node">NET</div>
           </div>
-          <p class="about-text">I'm an Azure-certified early-career IT professional and recent Rutgers IT graduate focused on cloud infrastructure, systems administration, and operational reliability. Through hands-on lab projects, I've built and documented Azure infrastructure with Terraform, monitoring and alerting workflows, GitHub Actions CI/CD, and Microsoft 365 / Intune identity and endpoint operations.</p>
+          <p class="about-text">I'm an Azure-certified IT professional focused on cloud infrastructure, systems administration, and operational reliability. Most recently, I served as IT Systems Administrator at Brightstar Lottery, managing 100+ endpoints via Intune, administering Active Directory and Entra ID, and authoring deployment runbooks across a production environment. The projects below represent my independent lab work in Azure infrastructure, CI/CD, monitoring, and M365 identity operations.</p>
           <div class="certs-row">
             <div class="cert-badge"><span class="cert-icon">&#9670;</span> AZ-104 Azure Administrator</div>
             <div class="cert-badge"><span class="cert-icon">&#9670;</span> AZ-900 Azure Fundamentals</div>
@@ -273,7 +279,7 @@
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
           seanc8611@gmail.com
         </a>
-        <p class="contact-hint">or find me on LinkedIn and GitHub below</p>
+        <p class="contact-hint">or find me on LinkedIn and GitHub below &middot; <a href="Clarke_Sean_Resume_2026.pdf" target="_blank" rel="noopener" style="color:var(--accent)">download resume</a></p>
       </div>
     </div>
   </div>
