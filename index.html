@@ -7,775 +7,465 @@
   <meta name="description" content="Azure-certified IT professional focused on cloud infrastructure, systems administration, and operational reliability.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ─── Reset & Base ─── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg-deep:#070c18;--bg:#0b1120;--bg-raised:#0f1829;--bg-surface:#131e33;
+      --text:#e2e8f0;--text-secondary:#94a3b8;--muted:#64748b;
+      --accent:#38bdf8;--accent-rgb:56,189,248;
+      --accent-dim:rgba(56,189,248,0.1);--border:rgba(56,189,248,0.08);--border-hover:rgba(56,189,248,0.22);
+      --font-body:'Sora',-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;
+    }
+    html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:rgba(56,189,248,0.15) var(--bg-deep)}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-deep)}::-webkit-scrollbar-thumb{background:rgba(56,189,248,0.2);border-radius:3px}
+    body{font-family:var(--font-body);background:var(--bg-deep);color:var(--text);line-height:1.6;overflow-x:hidden}
+    a{color:var(--accent);text-decoration:none;transition:all .25s}a:hover{opacity:.85}
 
-    :root {
-      --bg: #0b1120;
-      --bg-card: #0f1829;
-      --bg-card-hover: #131e33;
-      --text: #e2e8f0;
-      --text-secondary: #94a3b8;
-      --muted: #7b8fad;
-      --accent: #38bdf8;
-      --accent-dim: rgba(56, 189, 248, 0.12);
-      --accent-glow: rgba(56, 189, 248, 0.25);
-      --border: rgba(56, 189, 248, 0.1);
-      --font-body: 'Sora', -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-    }
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 3rem;height:56px;display:flex;align-items:center;justify-content:space-between;background:rgba(7,12,24,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .5s cubic-bezier(.16,1,.3,1)}
+    nav.visible{transform:translateY(0)}
+    .nav-logo{font-family:var(--font-mono);font-size:.85rem;color:var(--accent);letter-spacing:1.5px}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:.82rem;color:var(--muted);letter-spacing:.5px;transition:color .3s;position:relative;padding-bottom:6px}
+    .nav-links a::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;background:var(--accent);border-radius:1px;transition:width .3s cubic-bezier(.16,1,.3,1),left .3s cubic-bezier(.16,1,.3,1)}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);opacity:1}
+    .nav-links a.active::after,.nav-links a:hover::after{width:100%;left:0}
 
-    html {
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: var(--accent-dim) var(--bg);
-    }
+    /* HERO */
+    #hero{position:relative;height:100vh;min-height:600px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#0f1d3d 0%,var(--bg-deep) 70%)}
+    #topology-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+    .hero-content{position:relative;z-index:2;text-align:center;padding:0 2rem}
+    .hero-line{font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:600;letter-spacing:-.5px;margin-bottom:.3rem;opacity:0;transform:translateY(24px)}
+    .hero-line:nth-child(1){animation:fadeUp .7s ease .3s forwards}
+    .hero-line:nth-child(2){animation:fadeUp .7s ease .55s forwards}
+    .hero-line .name{color:var(--accent);font-weight:800}
+    .hero-line .role{color:var(--text-secondary)}
+    .hero-cta-wrap{margin-top:2.5rem;opacity:0;transform:translateY(24px);animation:fadeUp .7s ease .8s forwards}
+    .hero-cta{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--font-mono);font-size:.85rem;color:var(--accent);border:1.5px solid rgba(var(--accent-rgb),.5);background:rgba(var(--accent-rgb),.05);padding:.75rem 2rem;border-radius:8px;cursor:pointer;letter-spacing:.5px;transition:all .35s}
+    .hero-cta:hover{background:rgba(var(--accent-rgb),.12);border-color:var(--accent);box-shadow:0 0 30px rgba(var(--accent-rgb),.15);opacity:1}
+    .hero-cta:active{transform:translateY(1px);box-shadow:0 0 15px rgba(var(--accent-rgb),.1)}
+    .hero-cta .arrow{transition:transform .3s;font-size:1.1rem}.hero-cta:hover .arrow{transform:translateY(3px)}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    /* SECTIONS */
+    .section-wrap{width:100%;position:relative}.section-wrap--alt{background:var(--bg)}.section-wrap--dark{background:var(--bg-deep)}
+    .section-wrap+.section-wrap::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--accent-rgb),.1),transparent)}
+    .section-inner{max-width:1100px;margin:0 auto;padding:7rem 3rem}.section-header{margin-bottom:3.5rem}
+    .section-title{font-size:clamp(2rem,4vw,2.8rem);font-weight:800;letter-spacing:-1px;display:inline-block;position:relative}
+    .section-title::after{content:'';position:absolute;bottom:-8px;left:0;width:50px;height:3px;background:var(--accent);border-radius:2px}
 
-    a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
-    a:hover { opacity: 0.8; }
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}
 
-    /* ─── Navigation ─── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 0 2rem;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(11, 17, 32, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transform: translateY(-100%);
-      transition: transform 0.4s ease;
-    }
-    nav.visible { transform: translateY(0); }
+    /* ABOUT */
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:start}
+    .about-text{font-size:1.05rem;color:var(--text-secondary);line-height:1.9;margin-bottom:2.5rem}
+    .certs-row{display:flex;gap:.75rem;flex-wrap:wrap}
+    .cert-badge{display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:rgba(var(--accent-rgb),.06);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--text);font-family:var(--font-mono);letter-spacing:.2px}
+    .cert-icon{color:var(--accent)}
 
-    .nav-logo {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--accent);
-      letter-spacing: 1px;
-    }
+    /* Cloud visual */
+    .cloud-visual{position:relative;width:220px;height:220px;margin-bottom:2.5rem}
+    .cloud-ring{position:absolute;border-radius:50%;border:1.5px solid;animation:orbitSpin 20s linear infinite}
+    .cloud-ring--1{width:180px;height:180px;top:20px;left:20px;border-color:rgba(var(--accent-rgb),.2);animation-duration:25s}
+    .cloud-ring--2{width:140px;height:140px;top:40px;left:40px;border-color:rgba(var(--accent-rgb),.12);animation-duration:18s;animation-direction:reverse}
+    .cloud-ring--3{width:200px;height:200px;top:10px;left:10px;border-color:rgba(var(--accent-rgb),.08);animation-duration:30s}
+    @keyframes orbitSpin{to{transform:rotate(360deg)}}
+    .cloud-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px}
+    .cloud-core svg{width:100%;height:100%;filter:drop-shadow(0 0 12px rgba(var(--accent-rgb),.3))}
+    .orbit-node{position:absolute;width:36px;height:36px;border-radius:50%;background:var(--bg-raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--accent);font-family:var(--font-mono);animation:nodeFloat 6s ease-in-out infinite;box-shadow:0 0 10px rgba(var(--accent-rgb),.08)}
+    .orbit-node:nth-child(1){top:-5px;left:50%;transform:translateX(-50%)}
+    .orbit-node:nth-child(2){top:30%;right:-8px;animation-delay:-1.5s}
+    .orbit-node:nth-child(3){bottom:5px;right:15%;animation-delay:-3s}
+    .orbit-node:nth-child(4){bottom:15%;left:-5px;animation-delay:-4.5s}
+    .orbit-node:nth-child(5){top:25%;left:5px;animation-delay:-2s}
+    @keyframes nodeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .cloud-visual::before,.cloud-visual::after{content:'';position:absolute;background:rgba(var(--accent-rgb),.06);z-index:0}
+    .cloud-visual::before{width:1px;height:80px;top:30px;left:50%;transform:translateX(-50%)}
+    .cloud-visual::after{width:100px;height:1px;top:50%;left:60px}
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.85rem;
-      color: var(--muted);
-      letter-spacing: 0.3px;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--accent); opacity: 1; }
+    /* TECH PYRAMID */
+    .tech-pyramid{display:flex;flex-direction:column;gap:14px;align-items:center}
+    .tech-row{display:flex;gap:14px;justify-content:center}
+    .tc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.55rem;width:112px;height:100px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;transition:all .35s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;cursor:default}
+    .tc::after{content:'';position:absolute;inset:0;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),0);transition:box-shadow .3s}
+    .tc:hover{border-color:var(--border-hover);background:var(--bg-surface);transform:translateY(-5px);box-shadow:0 10px 30px rgba(var(--accent-rgb),.08)}
+    .tc:hover::after{box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.15)}
+    .tc-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center}.tc-icon svg{width:100%;height:100%}
+    .tc-label{font-family:var(--font-mono);font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-weight:500}
 
-    /* ─── Hero ─── */
-    #hero {
-      position: relative;
-      height: 100vh;
-      min-height: 600px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+    /* PROJECTS */
+    .projects-intro{font-size:1.05rem;color:var(--text-secondary);max-width:640px;line-height:1.8}
+    .project-card{display:grid;grid-template-columns:1.1fr 1fr;background:var(--bg-raised);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:3rem;transition:all .4s}
+    .project-card:hover{border-color:var(--border-hover);box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 40px rgba(var(--accent-rgb),.04)}
+    .project-card--flip{direction:rtl}.project-card--flip>*{direction:ltr}
+    .project-image-wrap{position:relative;background:linear-gradient(160deg,#080d1c 0%,#0d1528 50%,#0a1020 100%);display:flex;align-items:center;justify-content:center;padding:1.5rem;min-height:340px;overflow:hidden;cursor:pointer}
+    .project-image-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 70%,rgba(var(--accent-rgb),.04) 0%,transparent 60%);pointer-events:none}
+    .project-image-wrap::after{content:'\2922  expand';position:absolute;bottom:10px;right:14px;font-family:var(--font-mono);font-size:.68rem;color:var(--muted);opacity:0;transition:opacity .3s}
+    .project-image-wrap:hover::after{opacity:.7}
+    .project-image-wrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid rgba(var(--accent-rgb),.1);transition:transform .5s cubic-bezier(.16,1,.3,1);background:#fff;padding:10px;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+    .project-image-wrap:hover img{transform:scale(1.03)}
+    .project-body{padding:2.5rem;display:flex;flex-direction:column;justify-content:center}
+    .project-number{font-family:var(--font-mono);font-size:.72rem;color:var(--accent);letter-spacing:2px;margin-bottom:.6rem;opacity:.7}
+    .project-name{font-size:1.4rem;font-weight:700;margin-bottom:.75rem;letter-spacing:-.3px;line-height:1.3}
+    .project-stack{font-family:var(--font-mono);font-size:.72rem;color:var(--accent);margin-bottom:1.25rem;letter-spacing:.3px;opacity:.75}
+    .project-desc{font-size:.92rem;color:var(--text-secondary);line-height:1.8;margin-bottom:2rem}
+    .project-links{display:flex;gap:.75rem}
+    .project-link{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-mono);font-size:.78rem;color:var(--accent);padding:.55rem 1.25rem;border:1px solid rgba(var(--accent-rgb),.3);border-radius:6px;transition:all .25s;letter-spacing:.3px}
+    .project-link:hover{background:rgba(var(--accent-rgb),.1);border-color:var(--accent);opacity:1;box-shadow:0 0 16px rgba(var(--accent-rgb),.1)}
+    .project-link:active{transform:translateY(1px);box-shadow:none}
 
-    #topology-canvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-    }
+    /* LIGHTBOX */
+    .lightbox{position:fixed;inset:0;z-index:200;background:rgba(7,12,24,.92);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .3s;cursor:pointer}
+    .lightbox.open{opacity:1;pointer-events:auto}
+    .lightbox img{max-width:95vw;max-height:90vh;border-radius:8px;background:#fff;padding:16px;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+    .lightbox-close{position:absolute;top:1.5rem;right:2rem;font-size:2rem;color:var(--muted);cursor:pointer;font-family:var(--font-mono);transition:color .2s}.lightbox-close:hover{color:var(--text)}
 
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 0 2rem;
-    }
+    /* CONTACT */
+    .contact-layout{text-align:center;max-width:560px;margin:0 auto}
+    .contact-blurb{font-size:1.05rem;color:var(--text-secondary);line-height:1.9;margin-bottom:2.5rem}
+    .contact-cta{display:inline-flex;align-items:center;gap:.75rem;font-family:var(--font-mono);font-size:1rem;color:var(--accent);padding:1rem 2.5rem;border:1.5px solid rgba(var(--accent-rgb),.4);border-radius:10px;transition:all .35s;letter-spacing:.3px;background:rgba(var(--accent-rgb),.04)}
+    .contact-cta:hover{border-color:var(--accent);background:rgba(var(--accent-rgb),.1);opacity:1;box-shadow:0 0 30px rgba(var(--accent-rgb),.12);transform:translateY(-2px)}
+    .contact-cta:active{transform:translateY(0);box-shadow:none}
+    .contact-cta svg{width:20px;height:20px;fill:var(--accent)}
+    .contact-hint{font-size:.82rem;color:var(--muted);margin-top:1.25rem;font-family:var(--font-mono);letter-spacing:.3px}
 
-    .hero-greeting {
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      color: var(--accent);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.6s ease 0.2s forwards;
-    }
+    /* FOOTER */
+    footer{text-align:center;padding:3rem 2rem 2rem;background:var(--bg);border-top:1px solid var(--border);position:relative}
+    .footer-top-btn{position:absolute;top:-22px;left:50%;transform:translateX(-50%);width:44px;height:44px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;box-shadow:0 4px 16px rgba(var(--accent-rgb),.3)}
+    .footer-top-btn:hover{transform:translateX(-50%) translateY(-3px);box-shadow:0 6px 24px rgba(var(--accent-rgb),.4)}
+    .footer-top-btn:active{transform:translateX(-50%) translateY(-1px)}
+    .footer-top-btn svg{width:20px;height:20px}
+    .footer-icons{display:flex;justify-content:center;gap:1.25rem;margin-bottom:1.25rem}
+    .footer-icon-link{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(var(--accent-rgb),.2);display:flex;align-items:center;justify-content:center;transition:all .3s;color:var(--text-secondary)}
+    .footer-icon-link:hover{border-color:var(--accent);color:var(--accent);background:rgba(var(--accent-rgb),.06);opacity:1;transform:translateY(-2px);box-shadow:0 4px 12px rgba(var(--accent-rgb),.1)}
+    .footer-icon-link:active{transform:translateY(0)}
+    .footer-icon-link svg{width:20px;height:20px;fill:currentColor}
+    .footer-copy{font-size:.75rem;color:var(--muted);font-family:var(--font-mono);letter-spacing:.5px}
 
-    .hero-name {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 0.5rem;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.6s ease 0.4s forwards;
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      .about-grid{grid-template-columns:1fr;gap:3rem}.cloud-visual{margin:0 auto 2.5rem}
+      .project-card,.project-card--flip{grid-template-columns:1fr;direction:ltr}
+      .section-inner{padding:5rem 1.5rem}nav{padding:0 1.5rem}
     }
-
-    .hero-title {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      color: var(--muted);
-      font-weight: 400;
-      margin-bottom: 2rem;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.6s ease 0.6s forwards;
-    }
-
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--accent);
-      border: 1.5px solid var(--accent);
-      background: transparent;
-      padding: 0.7rem 1.8rem;
-      border-radius: 6px;
-      cursor: pointer;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.6s ease 0.8s forwards;
-    }
-    .hero-cta:hover {
-      background: var(--accent-dim);
-      box-shadow: 0 0 20px var(--accent-dim);
-    }
-    .hero-cta .arrow {
-      transition: transform 0.3s ease;
-    }
-    .hero-cta:hover .arrow {
-      transform: translateY(3px);
-    }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ─── Scroll indicator ─── */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1;
-      opacity: 0;
-      animation: fadeUp 0.6s ease 1.2s forwards;
-    }
-    .scroll-indicator span {
-      display: block;
-      width: 2px;
-      height: 28px;
-      background: linear-gradient(to bottom, var(--accent), transparent);
-      margin: 0 auto;
-      animation: scrollPulse 2s ease infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-      50% { opacity: 0.8; transform: scaleY(1); }
-    }
-
-    /* ─── Sections ─── */
-    section {
-      padding: 6rem 2rem;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 1.5rem;
-    }
-
-    /* ─── Fade-in on scroll ─── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ─── About ─── */
-    #about { border-top: 1px solid var(--border); }
-
-    .about-text {
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      max-width: 680px;
-      line-height: 1.8;
-      margin-bottom: 3rem;
-    }
-
-    .tech-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-    }
-
-    .tech-item {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.6rem 1.1rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: var(--text);
-      transition: all 0.25s ease;
-    }
-    .tech-item:hover {
-      border-color: var(--accent);
-      background: var(--bg-card-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px var(--accent-dim);
-    }
-    .tech-icon {
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      color: var(--accent);
-    }
-
-    /* ─── Projects ─── */
-    #projects { border-top: 1px solid var(--border); }
-
-    .projects-intro {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      margin-bottom: 3rem;
-      max-width: 640px;
-    }
-
-    .project-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 2.5rem;
-      transition: all 0.3s ease;
-    }
-    .project-card:hover {
-      border-color: rgba(56, 189, 248, 0.25);
-      box-shadow: 0 8px 32px rgba(56, 189, 248, 0.06);
-    }
-
-    .project-image-wrap {
-      position: relative;
-      width: 100%;
-      background: #0d1525;
-      padding: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 200px;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border);
-    }
-    .project-image-wrap img,
-    .project-image-wrap svg {
-      max-width: 100%;
-      height: auto;
-      max-height: 320px;
-      border-radius: 4px;
-    }
-
-    .project-body {
-      padding: 1.75rem 2rem;
-    }
-
-    .project-name {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-      letter-spacing: -0.3px;
-    }
-
-    .project-stack {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      margin-bottom: 1rem;
-      letter-spacing: 0.3px;
-    }
-
-    .project-desc {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.75;
-      margin-bottom: 1.5rem;
-    }
-
-    .project-links {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent);
-      padding: 0.5rem 1.2rem;
-      border: 1px solid var(--accent);
-      border-radius: 6px;
-      transition: all 0.2s ease;
-    }
-    .project-link:hover {
-      background: var(--accent-dim);
-      opacity: 1;
-    }
-
-    /* ─── Certifications ─── */
-    .certs-row {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 1.5rem;
-    }
-    .cert-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.65rem 1.2rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: var(--text);
-    }
-    .cert-badge .cert-icon {
-      color: var(--accent);
-      font-size: 1.1rem;
-    }
-
-    /* ─── Contact ─── */
-    #contact {
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .contact-blurb {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      max-width: 520px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.8;
-    }
-
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .contact-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--accent);
-      padding: 0.65rem 1.5rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      transition: all 0.25s ease;
-    }
-    .contact-link:hover {
-      border-color: var(--accent);
-      background: var(--accent-dim);
-      opacity: 1;
-    }
-
-    /* ─── Footer ─── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      letter-spacing: 0.3px;
-    }
-
-    /* ─── Placeholder Diagram ─── */
-    .diagram-placeholder {
-      width: 100%;
-      min-height: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 2px dashed rgba(56, 189, 248, 0.2);
-      border-radius: 8px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      gap: 0.5rem;
-      padding: 2rem;
-    }
-    .diagram-placeholder span {
-      font-size: 2rem;
-    }
-
-    /* ─── Responsive ─── */
-    @media (max-width: 768px) {
-      section { padding: 4rem 1.25rem; }
-      .project-body { padding: 1.25rem 1.5rem; }
-      .project-image-wrap { padding: 1rem; }
-      .nav-links { gap: 1.2rem; }
-      .nav-links a { font-size: 0.78rem; }
-      .contact-links { flex-direction: column; align-items: center; }
-    }
-
-    @media (max-width: 480px) {
-      .nav-links { display: none; }
-      .tech-grid { gap: 0.75rem; }
-      .tech-item { font-size: 0.8rem; padding: 0.5rem 0.85rem; }
-      .project-links { flex-direction: column; }
+    @media(max-width:600px){
+      .nav-links{display:none}.tc{width:95px;height:88px}.tc-icon{width:30px;height:30px}
+      .project-body{padding:1.5rem}
+      .section-inner{padding:4rem 1.25rem}
     }
   </style>
 </head>
 <body>
 
-  <!-- ─── Navigation ─── -->
   <nav id="navbar">
     <span class="nav-logo">SC</span>
     <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- ─── Hero ─── -->
   <section id="hero">
     <canvas id="topology-canvas"></canvas>
     <div class="hero-content">
-      <p class="hero-greeting">Hello, I'm</p>
-      <h1 class="hero-name">Sean Clarke</h1>
-      <p class="hero-title">Cloud &amp; Infrastructure Engineer</p>
-      <a href="#about" class="hero-cta">
-        View my work <span class="arrow">↓</span>
+      <p class="hero-line">Hello, I'm <span class="name">Sean</span>.</p>
+      <p class="hero-line"><span class="role">I'm a cloud &amp; infrastructure engineer.</span></p>
+      <div class="hero-cta-wrap">
+        <a href="#about" class="hero-cta">View my work <span class="arrow">&#8595;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-wrap section-wrap--alt" id="about">
+    <div class="section-inner">
+      <div class="section-header reveal"><h2 class="section-title">About</h2></div>
+      <div class="about-grid">
+        <div class="reveal reveal-d1">
+          <div class="cloud-visual">
+            <div class="cloud-ring cloud-ring--1"></div>
+            <div class="cloud-ring cloud-ring--2"></div>
+            <div class="cloud-ring cloud-ring--3"></div>
+            <div class="cloud-core">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M52 34c3.3 0 6-2.7 6-6s-2.7-6-6-6h-1c0-8.8-7.2-16-16-16-7 0-13 4.5-15.2 10.8C17.6 15.6 14.6 14 11 14c-5.5 0-10 4.5-10 10 0 4.8 3.4 8.8 8 9.8V34h43z" stroke="rgba(56,189,248,0.6)" stroke-width="1.5" fill="rgba(56,189,248,0.05)"/>
+                <path d="M20 38v8M32 36v12M44 38v8" stroke="rgba(56,189,248,0.3)" stroke-width="1" stroke-dasharray="2,3"/>
+                <rect x="14" y="46" width="12" height="8" rx="2" stroke="rgba(56,189,248,0.4)" stroke-width="1" fill="rgba(56,189,248,0.04)"/>
+                <rect x="26" y="48" width="12" height="8" rx="2" stroke="rgba(56,189,248,0.4)" stroke-width="1" fill="rgba(56,189,248,0.04)"/>
+                <rect x="38" y="46" width="12" height="8" rx="2" stroke="rgba(56,189,248,0.4)" stroke-width="1" fill="rgba(56,189,248,0.04)"/>
+              </svg>
+            </div>
+            <div class="orbit-node">VM</div>
+            <div class="orbit-node">ID</div>
+            <div class="orbit-node">CI</div>
+            <div class="orbit-node">LOG</div>
+            <div class="orbit-node">NET</div>
+          </div>
+          <p class="about-text">I'm an Azure-certified early-career IT professional and recent Rutgers IT graduate focused on cloud infrastructure, systems administration, and operational reliability. Through hands-on lab projects, I've built and documented Azure infrastructure with Terraform, monitoring and alerting workflows, GitHub Actions CI/CD, and Microsoft 365 / Intune identity and endpoint operations.</p>
+          <div class="certs-row">
+            <div class="cert-badge"><span class="cert-icon">&#9670;</span> AZ-104 Azure Administrator</div>
+            <div class="cert-badge"><span class="cert-icon">&#9670;</span> AZ-900 Azure Fundamentals</div>
+          </div>
+        </div>
+        <div class="tech-pyramid reveal reveal-d2">
+          <div class="tech-row">
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12.5 2L2 7.5V16.5L12.5 22L22 16.5V7.5L12.5 2Z" stroke="#0078D4" stroke-width="1.2"/><path d="M6 10L12.5 6L19 10L12.5 14L6 10Z" fill="#0078D4" opacity=".3"/><path d="M12.5 14V22" stroke="#0078D4" stroke-width="1"/></svg></div><span class="tc-label">Azure</span></div>
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M1 5.5L12 1L23 5.5V18.5L12 23L1 18.5V5.5Z" stroke="#7B42BC" stroke-width="1.2"/><path d="M1 5.5L12 11L23 5.5" stroke="#7B42BC" stroke-width=".8"/><path d="M12 11V23" stroke="#7B42BC" stroke-width=".8"/></svg></div><span class="tc-label">Terraform</span></div>
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="14" rx="2" stroke="#012456" stroke-width="1.2"/><path d="M7 12H10L8 16H10" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 11H16M13 14H15" stroke="#38bdf8" stroke-width="1.2" stroke-linecap="round"/></svg></div><span class="tc-label">PowerShell</span></div>
+          </div>
+          <div class="tech-row">
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#24292e" stroke-width="1.2"/><path d="M8 12L11 15L17 9" stroke="#2ea043" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tc-label">Actions</span></div>
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C7 2 3 5 3 9C3 12 5 14 6 16C7 17.5 6 20 6 22H10C10 20 9 18 10 16.5C10.5 15.5 11.5 15 12 14C12.5 15 13.5 15.5 14 16.5C15 18 14 20 14 22H18C18 20 17 17.5 18 16C19 14 21 12 21 9C21 5 17 2 12 2Z" fill="#FCC624" opacity=".15" stroke="#FCC624" stroke-width="1.2"/><circle cx="9" cy="9" r="1.2" fill="#333"/><circle cx="15" cy="9" r="1.2" fill="#333"/></svg></div><span class="tc-label">Linux</span></div>
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4C8 4 5 6 5 12C5 18 8 20 8 20" stroke="#306998" stroke-width="1.5" stroke-linecap="round"/><path d="M16 4C16 4 19 6 19 12C19 18 16 20 16 20" stroke="#FFD43B" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="8" r="1.2" fill="#306998"/><circle cx="14" cy="16" r="1.2" fill="#FFD43B"/></svg></div><span class="tc-label">Python</span></div>
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" fill="#F05032" opacity=".3" stroke="#F05032" stroke-width="1"/><path d="M12 9V3" stroke="#F05032" stroke-width="1.5" stroke-linecap="round"/><path d="M12 21V15" stroke="#F05032" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="3" r="1.5" fill="#F05032"/><circle cx="12" cy="21" r="1.5" fill="#F05032"/><path d="M12 12L18 6" stroke="#F05032" stroke-width="1.2" stroke-linecap="round"/><circle cx="18" cy="6" r="1.5" fill="#F05032"/></svg></div><span class="tc-label">Git</span></div>
+          </div>
+          <div class="tech-row">
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#0078D4" stroke-width="1.2"/><path d="M8 8L12 12L8 16" stroke="#0078D4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 16H18" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round" opacity=".5"/></svg></div><span class="tc-label">Entra ID</span></div>
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="2" width="14" height="20" rx="3" stroke="#0078D4" stroke-width="1.2"/><circle cx="12" cy="18" r="1.5" stroke="#0078D4" stroke-width="1"/><rect x="8" y="5" width="8" height="8" rx="1" stroke="#0078D4" stroke-width=".8" fill="#0078D4" opacity=".1"/><path d="M10 8L12 10L14 7" stroke="#0078D4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tc-label">Intune</span></div>
+            <div class="tc"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#D83B01" stroke-width="1.2"/><path d="M2 8H22" stroke="#D83B01" stroke-width=".8"/><rect x="5" y="10" width="6" height="4" rx=".5" fill="#D83B01" opacity=".15" stroke="#D83B01" stroke-width=".6"/><rect x="13" y="10" width="6" height="4" rx=".5" fill="#0078D4" opacity=".15" stroke="#0078D4" stroke-width=".6"/></svg></div><span class="tc-label">M365</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap section-wrap--dark" id="projects">
+    <div class="section-inner">
+      <div class="section-header reveal"><h2 class="section-title">Projects</h2></div>
+      <p class="projects-intro reveal reveal-d1">Here are a few projects that reflect my focus on cloud infrastructure, automation, monitoring, and modern IT operations.</p>
+      <div class="project-card reveal">
+        <div class="project-image-wrap" onclick="openLightbox(this)">
+          <img src="architecture-azure.png" alt="Azure Infrastructure Lab Architecture Diagram">
+        </div>
+        <div class="project-body">
+          <span class="project-number">PROJECT 01</span>
+          <h3 class="project-name">Azure Infrastructure &amp; Observability Lab</h3>
+          <p class="project-stack">Terraform &middot; Azure &middot; GitHub Actions &middot; Log Analytics &middot; KQL &middot; OIDC</p>
+          <p class="project-desc">Terraform-managed Azure environment built to demonstrate core infrastructure deployment, observability, and CI/CD. Includes a virtual network, subnets, NSGs, Ubuntu VM with nginx, Log Analytics ingestion through Azure Monitor Agent, CPU alerting with email notifications, and GitHub Actions workflows using OIDC.</p>
+          <div class="project-links"><a href="https://github.com/seancl8611/azure-infra-observability-lab" target="_blank" rel="noopener" class="project-link">&#8599; View on GitHub</a></div>
+        </div>
+      </div>
+      <div class="project-card project-card--flip reveal">
+        <div class="project-image-wrap" onclick="openLightbox(this)">
+          <img src="architecture-workplace.png" alt="Modern Workplace and Identity Ops Lab Architecture Diagram">
+        </div>
+        <div class="project-body">
+          <span class="project-number">PROJECT 02</span>
+          <h3 class="project-name">Modern Workplace &amp; Identity Ops Lab</h3>
+          <p class="project-stack">Entra ID &middot; Intune &middot; Conditional Access &middot; PowerShell &middot; Microsoft Graph</p>
+          <p class="project-desc">Hands-on Microsoft 365, Entra ID, and Intune lab simulating day-to-day identity and endpoint operations. Demonstrates Conditional Access baselines, security groups, RBAC, compliance policies, configuration profiles, app deployment, proactive remediation, and Graph SDK automation.</p>
+          <div class="project-links"><a href="https://github.com/seancl8611/modern-workplace-ops-lab" target="_blank" rel="noopener" class="project-link">&#8599; View on GitHub</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-wrap section-wrap--alt" id="contact">
+    <div class="section-inner">
+      <div class="contact-layout reveal">
+        <div class="section-header" style="text-align:center"><h2 class="section-title" style="display:inline-block">Get in Touch</h2></div>
+        <p class="contact-blurb">I'm actively building experience in cloud, infrastructure, and IT operations. Feel free to reach out if you'd like to connect about opportunities, projects, or technical work.</p>
+        <a href="mailto:seanc8611@gmail.com" class="contact-cta">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          seanc8611@gmail.com
+        </a>
+        <p class="contact-hint">or find me on LinkedIn and GitHub below</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="#hero" class="footer-top-btn" title="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#070c18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15L12 9L6 15"/><path d="M18 10L12 4L6 10" opacity=".5"/></svg>
+    </a>
+    <div class="footer-icons">
+      <a href="https://github.com/seancl8611" target="_blank" rel="noopener" class="footer-icon-link" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/seanc8611" target="_blank" rel="noopener" class="footer-icon-link" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="mailto:seanc8611@gmail.com" class="footer-icon-link" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
       </a>
     </div>
-    <div class="scroll-indicator"><span></span></div>
-  </section>
-
-  <!-- ─── About ─── -->
-  <section id="about">
-    <div class="reveal">
-      <p class="section-label">About</p>
-      <h2 class="section-title">Who I Am</h2>
-      <p class="about-text">
-        I'm an Azure-certified early-career IT professional and recent Rutgers IT graduate focused on cloud infrastructure, systems administration, and operational reliability. Through hands-on lab projects, I've built and documented Azure infrastructure with Terraform, monitoring and alerting workflows, GitHub Actions CI/CD, and Microsoft 365 / Intune identity and endpoint operations.
-      </p>
-    </div>
-
-    <div class="reveal">
-      <p class="section-label">Tech Stack</p>
-      <div class="tech-grid">
-        <div class="tech-item"><div class="tech-icon">☁</div> Azure</div>
-        <div class="tech-item"><div class="tech-icon">⬡</div> Terraform</div>
-        <div class="tech-item"><div class="tech-icon">⚡</div> PowerShell</div>
-        <div class="tech-item"><div class="tech-icon">⚙</div> GitHub Actions</div>
-        <div class="tech-item"><div class="tech-icon">🐧</div> Linux</div>
-        <div class="tech-item"><div class="tech-icon">🐍</div> Python</div>
-        <div class="tech-item"><div class="tech-icon">◈</div> Git</div>
-        <div class="tech-item"><div class="tech-icon">🔐</div> Entra ID</div>
-        <div class="tech-item"><div class="tech-icon">📱</div> Intune</div>
-        <div class="tech-item"><div class="tech-icon">✉</div> Microsoft 365</div>
-      </div>
-    </div>
-
-    <div class="reveal">
-      <p class="section-label" style="margin-top: 3rem;">Certifications</p>
-      <div class="certs-row">
-        <div class="cert-badge"><span class="cert-icon">◆</span> Azure Administrator Associate (AZ-104)</div>
-        <div class="cert-badge"><span class="cert-icon">◆</span> Azure Fundamentals (AZ-900)</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── Projects ─── -->
-  <section id="projects">
-    <div class="reveal">
-      <p class="section-label">Projects</p>
-      <h2 class="section-title">What I've Built</h2>
-      <p class="projects-intro">Here are a few projects that reflect my focus on cloud infrastructure, automation, monitoring, and modern IT operations.</p>
-    </div>
-
-    <!-- Project 1: Azure Infra Lab -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <!-- PLACEHOLDER: Replace with your Azure lab architecture diagram -->
-        <div class="diagram-placeholder">
-          <span>◈</span>
-          Architecture diagram — swap in your Azure lab SVG/PNG here
-        </div>
-      </div>
-      <div class="project-body">
-        <h3 class="project-name">Azure Infrastructure &amp; Observability Lab</h3>
-        <p class="project-stack">Terraform · Azure · GitHub Actions · Log Analytics · KQL · OIDC</p>
-        <p class="project-desc">
-          Terraform-managed Azure environment built to demonstrate core infrastructure deployment, observability, and CI/CD. The project includes a virtual network, subnets, NSGs, public IP, Ubuntu VM with nginx, Log Analytics ingestion through Azure Monitor Agent, CPU alerting with email notifications, and GitHub Actions workflows using OIDC instead of client secrets.
-        </p>
-        <div class="project-links">
-          <a href="https://github.com/seancl8611/azure-infra-observability-lab" target="_blank" rel="noopener" class="project-link">
-            ↗ GitHub
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 2: Modern Workplace Lab -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="architecture.svg" alt="Modern Workplace & Identity Ops Lab Architecture Diagram">
-      </div>
-      <div class="project-body">
-        <h3 class="project-name">Modern Workplace &amp; Identity Ops Lab</h3>
-        <p class="project-stack">Entra ID · Intune · Conditional Access · PowerShell · Microsoft Graph</p>
-        <p class="project-desc">
-          Hands-on Microsoft 365, Entra ID, and Intune lab designed to simulate day-to-day identity and endpoint operations for a small organization. The project demonstrates Conditional Access baselines, security groups, RBAC, Windows device enrollment, compliance policies, configuration profiles, app deployment, proactive remediation, and PowerShell automation with Microsoft Graph.
-        </p>
-        <div class="project-links">
-          <a href="https://github.com/seancl8611/modern-workplace-ops-lab" target="_blank" rel="noopener" class="project-link">
-            ↗ GitHub
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── Contact ─── -->
-  <section id="contact">
-    <div class="reveal">
-      <p class="section-label">Contact</p>
-      <h2 class="section-title">Get in Touch</h2>
-      <p class="contact-blurb">
-        I'm actively building experience in cloud, infrastructure, and IT operations. Feel free to reach out if you'd like to connect about opportunities, projects, or technical work.
-      </p>
-      <div class="contact-links">
-        <a href="mailto:seanc8611@gmail.com" class="contact-link">✉ seanc8611@gmail.com</a>
-        <a href="https://linkedin.com/in/seanc8611" target="_blank" rel="noopener" class="contact-link">in LinkedIn</a>
-        <a href="https://github.com/seancl8611" target="_blank" rel="noopener" class="contact-link">◈ GitHub</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── Footer ─── -->
-  <footer>
-    Sean Clarke &copy; 2026
+    <p class="footer-copy">SEAN CLARKE &#169;2026</p>
   </footer>
 
-  <!-- ─── JavaScript ─── -->
-  <script>
-    /* ═══════════════════════════════════════════
-       Cloud Topology Canvas
-       ═══════════════════════════════════════════ */
-    (function() {
-      var canvas = document.getElementById('topology-canvas');
-      var ctx = canvas.getContext('2d');
-      var mouse = { x: -1000, y: -1000 };
-      var nodes = [];
-      var tick = 0;
-      var icons = ['◈', '⬡', '▣', '◉', '⊞', '△'];
-      var ACCENT = '56, 189, 248';
-      var CONNECTION_DIST = 160;
-      var MOUSE_RADIUS = 180;
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="">
+  </div>
 
-      function resize() {
-        var dpr = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  <script>
+    (function(){
+      var canvas=document.getElementById('topology-canvas');
+      var ctx=canvas.getContext('2d');
+      var mouse={x:-9999,y:-9999};
+      var nodes=[];
+      var tick=0;
+      var icons=['\u25C8','\u2B21','\u25A3','\u25C9','\u229E','\u25B3'];
+      var A='56,189,248';
+      var CON=170;
+      var MR=200;
+      var w=0;
+      var h=0;
+
+      function resize(){
+        var d=window.devicePixelRatio||1;
+        var hero=document.getElementById('hero');
+        w=hero.offsetWidth;
+        h=hero.offsetHeight;
+        canvas.width=w*d;
+        canvas.height=h*d;
+        canvas.style.width=w+'px';
+        canvas.style.height=h+'px';
+        ctx.setTransform(d,0,0,d,0,0);
       }
 
-      function initNodes() {
-        nodes = [];
-        var count = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 18000));
-        for (var i = 0; i < count; i++) {
+      function initNodes(){
+        nodes=[];
+        var c=Math.min(55,Math.floor((w*h)/16000));
+        for(var i=0;i<c;i++){
           nodes.push({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            vx: (Math.random() - 0.5) * 0.2,
-            vy: (Math.random() - 0.5) * 0.2,
-            size: Math.random() * 5 + 9,
-            icon: icons[Math.floor(Math.random() * icons.length)],
-            pulse: Math.random() * Math.PI * 2
+            x:Math.random()*w,
+            y:Math.random()*h,
+            vx:(Math.random()-0.5)*0.18,
+            vy:(Math.random()-0.5)*0.18,
+            size:Math.random()*5+9,
+            icon:icons[Math.floor(Math.random()*icons.length)],
+            pulse:Math.random()*Math.PI*2
           });
         }
       }
 
-      function draw() {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        ctx.clearRect(0, 0, w, h);
-        tick += 0.008;
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        tick+=0.007;
+        var i,j,k,dx,dy,dist,a,t,px,py,n,dmx,dmy,md,f,g;
 
-        // Connections
-        for (var i = 0; i < nodes.length; i++) {
-          for (var j = i + 1; j < nodes.length; j++) {
-            var dx = nodes[i].x - nodes[j].x;
-            var dy = nodes[i].y - nodes[j].y;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < CONNECTION_DIST) {
-              var alpha = (1 - dist / CONNECTION_DIST) * 0.18;
+        for(i=0;i<nodes.length;i++){
+          for(j=i+1;j<nodes.length;j++){
+            dx=nodes[i].x-nodes[j].x;
+            dy=nodes[i].y-nodes[j].y;
+            dist=Math.sqrt(dx*dx+dy*dy);
+            if(dist<CON){
+              a=(1-dist/CON)*0.15;
               ctx.beginPath();
-              ctx.strokeStyle = 'rgba(' + ACCENT + ', ' + alpha + ')';
-              ctx.lineWidth = 1;
-              ctx.setLineDash([3, 5]);
-              ctx.moveTo(nodes[i].x, nodes[i].y);
-              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.strokeStyle='rgba('+A+','+a+')';
+              ctx.lineWidth=1;
+              ctx.setLineDash([3,5]);
+              ctx.moveTo(nodes[i].x,nodes[i].y);
+              ctx.lineTo(nodes[j].x,nodes[j].y);
               ctx.stroke();
               ctx.setLineDash([]);
-
-              // Data packet
-              var t = (Math.sin(tick * 2 + i * 0.7 + j * 0.3) + 1) / 2;
-              var px = nodes[i].x + (nodes[j].x - nodes[i].x) * t;
-              var py = nodes[i].y + (nodes[j].y - nodes[i].y) * t;
+              t=(Math.sin(tick*2.5+i*0.7+j*0.3)+1)/2;
+              px=nodes[i].x+(nodes[j].x-nodes[i].x)*t;
+              py=nodes[i].y+(nodes[j].y-nodes[i].y)*t;
               ctx.beginPath();
-              ctx.arc(px, py, 1.5, 0, Math.PI * 2);
-              ctx.fillStyle = 'rgba(' + ACCENT + ', ' + (alpha * 3) + ')';
+              ctx.arc(px,py,1.5,0,Math.PI*2);
+              ctx.fillStyle='rgba('+A+','+Math.min(a*3,0.5)+')';
               ctx.fill();
             }
           }
         }
 
-        // Nodes
-        for (var k = 0; k < nodes.length; k++) {
-          var n = nodes[k];
-
-          // Mouse attraction
-          var dmx = mouse.x - n.x;
-          var dmy = mouse.y - n.y;
-          var md = Math.sqrt(dmx * dmx + dmy * dmy);
-          if (md < MOUSE_RADIUS && md > 0) {
-            var force = (MOUSE_RADIUS - md) / MOUSE_RADIUS * 0.5;
-            n.x += dmx * force * 0.015;
-            n.y += dmy * force * 0.015;
+        for(k=0;k<nodes.length;k++){
+          n=nodes[k];
+          dmx=mouse.x-n.x;
+          dmy=mouse.y-n.y;
+          md=Math.sqrt(dmx*dmx+dmy*dmy);
+          if(md<MR&&md>1){
+            f=(MR-md)/MR*0.45;
+            n.x+=dmx*f*0.018;
+            n.y+=dmy*f*0.018;
           }
-
-          // Drift
-          n.x += n.vx;
-          n.y += n.vy;
-          if (n.x < -20) n.x = w + 20;
-          if (n.x > w + 20) n.x = -20;
-          if (n.y < -20) n.y = h + 20;
-          if (n.y > h + 20) n.y = -20;
-
-          // Pulse glow
-          n.pulse += 0.015;
-          var glow = (Math.sin(n.pulse) + 1) / 2 * 0.3 + 0.15;
-
-          // Halo
+          n.x+=n.vx;
+          n.y+=n.vy;
+          if(n.x<-30)n.x=w+30;
+          if(n.x>w+30)n.x=-30;
+          if(n.y<-30)n.y=h+30;
+          if(n.y>h+30)n.y=-30;
+          n.pulse+=0.012;
+          g=(Math.sin(n.pulse)+1)/2*0.3+0.12;
           ctx.beginPath();
-          ctx.arc(n.x, n.y, n.size + 4, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(' + ACCENT + ', ' + (glow * 0.1) + ')';
+          ctx.arc(n.x,n.y,n.size+5,0,Math.PI*2);
+          ctx.fillStyle='rgba('+A+','+(g*0.08)+')';
           ctx.fill();
-
-          // Icon
-          ctx.font = n.size + 'px monospace';
-          ctx.fillStyle = 'rgba(' + ACCENT + ', ' + (glow + 0.25) + ')';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(n.icon, n.x, n.y);
+          ctx.font=n.size+'px monospace';
+          ctx.fillStyle='rgba('+A+','+(g+0.2)+')';
+          ctx.textAlign='center';
+          ctx.textBaseline='middle';
+          ctx.fillText(n.icon,n.x,n.y);
         }
-
         requestAnimationFrame(draw);
       }
 
       resize();
       initNodes();
       draw();
-
-      window.addEventListener('resize', function() {
-        resize();
-        initNodes();
+      window.addEventListener('resize',function(){resize();initNodes();});
+      document.getElementById('hero').addEventListener('mousemove',function(e){
+        var r=canvas.getBoundingClientRect();
+        mouse.x=e.clientX-r.left;
+        mouse.y=e.clientY-r.top;
       });
-
-      document.getElementById('hero').addEventListener('mousemove', function(e) {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
-
-      document.getElementById('hero').addEventListener('mouseleave', function() {
-        mouse.x = -1000;
-        mouse.y = -1000;
+      document.getElementById('hero').addEventListener('mouseleave',function(){
+        mouse.x=-9999;
+        mouse.y=-9999;
       });
     })();
 
-    /* ═══════════════════════════════════════════
-       Navbar show on scroll
-       ═══════════════════════════════════════════ */
-    (function() {
-      var navbar = document.getElementById('navbar');
-      var heroHeight = window.innerHeight * 0.7;
-      window.addEventListener('scroll', function() {
-        if (window.scrollY > heroHeight) {
-          navbar.classList.add('visible');
-        } else {
-          navbar.classList.remove('visible');
+    (function(){
+      var nb=document.getElementById('navbar');
+      var lks=nb.querySelectorAll('.nav-links a');
+      var ids=['hero','about','projects','contact'];
+      window.addEventListener('scroll',function(){
+        var sy=window.scrollY;
+        var hh=document.getElementById('hero').offsetHeight;
+        nb.classList.toggle('visible',sy>hh*0.6);
+        var cur='';
+        for(var i=0;i<ids.length;i++){
+          var el=document.getElementById(ids[i]);
+          if(el&&el.getBoundingClientRect().top<window.innerHeight*0.4) cur=ids[i];
         }
-      });
-    })();
-
-    /* ═══════════════════════════════════════════
-       Reveal on scroll
-       ═══════════════════════════════════════════ */
-    (function() {
-      var reveals = document.querySelectorAll('.reveal');
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
+        lks.forEach(function(l){
+          l.classList.toggle('active',l.getAttribute('href')==='#'+cur);
         });
-      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-      reveals.forEach(function(el) {
-        observer.observe(el);
       });
     })();
+
+    (function(){
+      var obs=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting) e.target.classList.add('visible');
+        });
+      },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+      document.querySelectorAll('.reveal').forEach(function(el){
+        obs.observe(el);
+      });
+    })();
+
+    function openLightbox(wrap){
+      var img=wrap.querySelector('img');
+      if(!img) return;
+      document.getElementById('lightbox-img').src=img.src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow='hidden';
+    }
+
+    function closeLightbox(){
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow='';
+    }
+
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape') closeLightbox();
+    });
   </script>
 </body>
 </html>
